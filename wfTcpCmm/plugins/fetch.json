@@ -1,0 +1,26 @@
+{
+    "cordova-plugin-whitelist": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-whitelist@1"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "spc.cdv.plugin.tcpCmm": {
+        "source": {
+            "type": "local",
+            "path": "F:\\pluginsDesign\\tcpCmm"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "spc.cdv.plgin.wf": {
+        "source": {
+            "type": "local",
+            "path": "F:\\pluginsDesign\\wifiAp"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <!--meta content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval';
+    style-src 'self' 'unsafe-inline'; media-src *" http-equiv="Content-Security-Policy" -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1,
+    minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>Wifi热点TCP通信管理</title>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.3.css"/>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.4.3.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style type="text/css">
+      textarea.rcvTxt.ui-input-text{min-height:150px;}
+      textarea.rcvTxt2.ui-input-text{min-height:250px;}
+    </style>
+  </head>
+  <body style="height:100%; width:100%; overflow:hidden; margin:0;padding:0;>
+    <div class="app">
+    </div>
+    <div data-role="page" data-add-back-btn="true" id="logon"style="padding:0px">
+      <div data-role="content" style="padding:0px;height:100%">
+		<div data-role="tabs" id="tabs" style="padding:0;height:100%;">
+          <div data-role="navbar" style="padding:0">
+            <ul>
+              <li><a href="#bscCfg"  data-ajax="false">基本配置</a></li>
+              <li><a href="#endMng"  data-ajax="false" onclick="equipmentNum();">终端管理</a></li>
+              <li><a href="#monitor" data-ajax="false">运行监视</a></li>
+              <!--li><a href="ajax-content-ignore.html" data-ajax="false">three</a></li-->
+            </ul>
+          </div>
+          <div id="bscCfg" class="ui-body-d ui-content" style="padding:0">
+            <div style="text-align:center; padding:0;">
+              <a href="#" class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow"
+                onclick="wfAP();" id="wfHtp">开启热点</a>						
+              <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+                onclick="tcpSvr();"id="tcpServer">创建服务</a>
+            </div>
+            <div class="ui-grid-a" style="margin:0;">
+              <div class="ui-block-a" style="width:63%;">
+                <input type="text" name="ipPt" id="ipPt" placeholder="192.168.43.1:8355"
+                  data-clear-btn="true"/>
+              </div>
+              <div class="ui-block-b" style="width:37%;padding-top:2px;">
+                <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+                  onclick="tcpCnct();" style="float:right; " id="tcpc">开始连接</a>
+              </div>
+            </div>
+            <div class="ui-grid-a" style="margin:0;">
+              <div class="ui-block-a" style="width:63%;">
+                <textarea name="txtCtt" id="txtCtt">hello!</textarea>
+              </div>
+              <div class="ui-block-b" style="width:37%;padding-top:7px;">
+                <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+                  onclick="tcpSdMsg();" style="float:right;">发送信息</a>
+              </div>
+            </div>
+            <div style="margin:0;">
+              <textarea class="rcvTxt" name="rcvTxt" id="rcvTxt" readonly="readonly" style="width:100%;overflow:scroll"></textarea>
+              <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+                onclick="clrShow();" style="float:right; margin:0;">清除显示</a>
+            </div>
+          </div>
+          <div id="endMng" class="ui-grid-b" style="padding:0">
+            <div class="ui-block-a" >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px" 
+	             href="#location">服务地址端口</a>
+	        </div>
+	        <div class="ui-block-b " >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#ceDuan">测控终端编号</a>
+	        </div>
+	        <div class="ui-block-c " >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#YH">wf用户名密码</a>
+	        </div>
+	        <div class="ui-block-a " >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#interval">报告数据间隔</a>
+	        </div>
+	        <div class="ui-block-b " >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#purgeMS">净化工作模式</a>
+	        </div>
+	        <div class="ui-block-c " >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#frequency">射频载波频率</a>
+	        </div>
+	        <div class="ui-block-a " >
+	          <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#send">无线发送地址</a>
+	        </div>
+	        <div class="ui-block-b " >
+	           <a class="ui-btn ui-btn-inline ui-corner-all ui-mini ui-shadow" style="font-size:12px"
+	             href="#receive">无线接收地址</a>
+	        </div>
+            <div style="margin:0;">
+              <textarea name="rcvTxt2" id="rcvTxt2" readonly="readonly" style="width:100%;overflow:scroll"></textarea>
+              <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+                onclick="clrShow1();" style="float:right; margin:0;">清除显示</a>
+            </div>	
+          </div>
+          <div id="monitor" style="background-image:url(img/blueSky.jpg);background-size:cover;width:100%;height:650px">
+		  	<div style="height:80px"></div>
+            <div  style = "height:250px;background-size:280px 250px;background-repeat:no-repeat;
+            		background-image:url(img/qlt1.png);" id="pm25Photo">
+              <div>
+                <label style="font-size:30px;color:#00e300;padding-top:125px;margin-left:93px;" id="pm25Text"></label>
+              </div>
+              <div  style="width:25%;float:right;text-align:center;margin-top:5px;">
+            	<img style="margin:5px 0px 5px 5px;height:30px;width:30px;"src="../www/img/liang.png" id="face"/>
+            	<font style="font-weight:blod;" color="#66FF99" size=3 id="outPm25;float:right;"> 
+                  <b><label id="outdoor" style="font-size:18px; color: #00e300;"></label></b>
+                </font>
+              </div>
+            </div>
+            <div><b><label style="margin-left:125px"></label></b></div>
+			<div style="height:80px"></div>
+			<div class="ui-grid-a" style= "margin-left:5px;margin-right:5px;">
+			  <div class="ui-block-a">
+			    <div><label>PM2.5:<a id="pm25Val">...</a></label></div>
+			    <hr style="background-color:#00e300;height:2px;"  id="pm25Pic">
+			  </div>
+              <div class="ui-block-b">
+                <div><b><label>湿度:<a id="humVal">...</a></label></b></div>
+                <hr style="background-color:#00e300;height:2px; id="humPic"">
+              </div>
+              <div class="ui-block-a">
+			  	<div><b><label>PM10:<a id="pm10Val">...</a></label></b></div>
+			  	<hr style="background-color:#00e300;height:2px;" id="pm10Pic">
+              </div>
+              <div class="ui-block-b">
+              	<div><b><label>温度:<a id="tempVal">...</a></label></b></div>
+              	<hr style="background-color:#00e300;height:2px;" id="tempPic">
+              </div>
+              <div class="ui-block-a">
+			  	<div><b><label>CO2:<a id="co2Val">...</a></label></b></div>
+			  	<hr style="background-color:#00e300;height:2px;" id="co2Pic">
+              </div>
+              <div class="ui-block-b">
+              	<div><b><label>TVOC:<a id="tvocVal">...</a></label></b></div>
+              	<hr style="background-color:#00e300;height:2px;" id="tvocPic">
+              </div>
+              <div class="ui-block-a">
+			  	<div><b><label>HCHO:<a id="hchoVal">...</a></label></b></div>
+			  	<hr style="background-color:#00e300;height:2px;" id="hchoPic">
+              </div>
+              <div class="ui-block-b">
+			  	<div><b><label>pwr:<a id="pwrVal";>...</a></label></b></div>
+			  	<hr style="background-color:#00e300;height:2px;" id="pwrPic";>
+              </div>
+			</div>
+          </div>
+		</div>
+      </div>
+      <!-- <div data-role="footer" style="text-align:center;" data-position="fixed">
+        <p><a href="http://www.everrise.com.cn/">恒升科创</a></p>
+      </div>  -->
+    </div>
+    <!--弹框页面 服务地址端口--> 
+	<div data-role="page" data-dialog="true" id="location">
+	  <div data-role="header">
+		<h1>设置和查询服务地址端口</h1>
+      </div>
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a"  style="margin:0;">
+		  <div class="ui-block-a" style="width:100%;">
+		    <input type="text" name="ipPt" id="setipPt" placeholder="192.168.43.1:8355"
+			  data-clear-btn="true"/>
+		  </div>
+		  <div  style="width:50%; padding-top:10px;">
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			  onclick="setport();" style="float:left; margin:0;">设置服务端地址和端口</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:100%;">
+            <input type="text" name="ipPt" id="getipPt" placeholder="192.168.43.1:8355"
+              data-clear-btn="true"/>
+		  </div>
+		  <div  style="width:50%;padding-top:10px;">
+		    <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+		       onclick="ipport();" style="float:left; margin:0;">查询服务端地址和端口</a>
+		  </div>
+        </div>
+        <div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+	  <div data-role="footer" data-position="fixed">
+		<h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 测控终端编号--> 
+	<div data-role="page" data-dialog="true" id="ceDuan">
+	  <div data-role="header">
+		<h1>设置和查询测控终端编号</h1>
+	  </div>
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;" >
+		  <div class="ui-block-a" style="width:50%;">
+		    <input type="text" name="ipPt" id="seteqNum" placeholder="D01"
+			data-clear-btn="true"/>
+		  </div>
+		  <div class="ui-block-b" style="width:50%; padding-top:10px" >
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			  onclick="setEquipmentNum();" style="float:right; margin:0;">设置测控终端编号</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+			<input type="text" name="ipPt" id="geteqNum" placeholder="D01"
+			  data-clear-btn="true"/>
+		  </div>
+		  <div class="ui-block-b" style="width:50%;padding-top:10px">
+            <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+               onclick="equipmentNum()" style="float:right; margin:0;">查询测控终端编号</a>
+		  </div>
+        </div>
+        <div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+	  <div data-role="footer" data-position="fixed">
+        <h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 wf用户名密码-->
+	<div data-role="page" data-dialog="true" id="YH">
+	  <div data-role="header">
+		<h1>设置和查询wf用户名和密码</h1>
+	  </div>
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:100%;">
+			<input type="text" name="ipPt" id="setWifi" placeholder="EVERRISE-LINK,everrise0621"
+			  data-clear-btn="true"/>
+		  </div>
+		  <div  style="width:50%; padding-top:10px" >
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			  onclick="setwifiNum();" style="float:left; margin:0;">设置wf用户名和密码</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+          <div class="ui-block-a" style="width:100%;">
+            <input type="text" name="ipPt" id="getWifi" placeholder="EVERRISE-LINK,everrise0621"
+              data-clear-btn="true"/>
+          </div>
+          <div style="width:50%;padding-top:10px">
+            <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+               onclick="wifiNum()" style="float:left; margin:0;">查询wf用户名和密码</a>
+          </div>
+        </div>
+		<div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+	  <div data-role="footer" data-position="fixed">
+		<h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 报告数据间隔--> 
+	<div data-role="page" data-dialog="true" id="interval">
+	  <div data-role="header">
+	    <h1>设置和查询报告数据间隔</h1>
+	  </div>	  
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+            <select name="" id="settime">
+              <option value="0" >2min</option>
+              <option value="1">4min</option>
+              <option value="2" >8min</option>
+              <option value="3">15min</option>
+              <option value="4" >30min</option>
+              <option value="5">60min</option>
+		    </select>
+		  </div>
+		  <div class="ui-block-b" style="width:50%; padding-top:10px" >
+            <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			  onclick="setTimer();" style="float:right; margin:0;">设置报告数据间隔</a>
+	      </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+		    <input type="text" name="ipPt" id="gettime" placeholder="2min"
+			  data-clear-btn="true"/>
+		  </div>
+		  <div class="ui-block-b" style="width:50%;padding-top:10px">
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			   onclick="time()" style="float:right; margin:0;">查询报告数据间隔</a>
+		  </div>
+        </div>
+		<div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+	  <div data-role="footer" data-position="fixed">
+		<h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 净化工作模式--> 
+	<div data-role="page" data-dialog="true" id="purgeMS">
+	  <div data-role="header">
+		<h1>设置和查询净化工作模式</h1>
+	  </div>	  
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+			<select name="" id="setcleanwork">
+              <option value="1" >低档运行</option>
+			  <option value="2">中档运行</option>
+			  <option value="3" >高档运行</option>
+			  <option value="4">停止运行</option>
+			  <option value="5" >自动运行</option>
+              <option value="6">手动运行</option>
+			</select>
+		  </div>
+		  <div class="ui-block-b" style="width:50%; padding-top:10px" >
+           <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			  onclick="setCleanWork();" style="float:right; margin:0;">设置净化工作模式</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+			<input type="text" name="ipPt" id="getcleanwork" placeholder="低档运行"
+			  data-clear-btn="true"/>
+		  </div>
+		  <div class="ui-block-b" style="width:50%;padding-top:10px">
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			   onclick="cleanwork()" style="float:right; margin:0;">查询净化工作模式</a>
+	      </div>
+        </div>
+		<div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+	  <div data-role="footer" data-position="fixed">
+	    <h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 射频载波频率--> 
+    <div data-role="page" data-dialog="true" id="frequency">
+	  <div data-role="header">
+		<h1>设置和查询射频载波频率</h1>
+	  </div>	  
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+			<select name="" id="setmhz">
+              <option value="04C" >433M段</option>
+              <option value="296">868/915</option>
+		    </select>
+		  </div>
+	      <div class="ui-block-b" style="width:50%; padding-top:10px" >
+            <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			  onclick="setMHz();" style="float:right; margin:0;">设置射频载波频率</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-block-a" style="width:50%;">
+			<input type="text" name="ipPt" id="getmhz" placeholder="433M段"
+			  data-clear-btn="true"/>
+		  </div>
+		  <div class="ui-block-b" style="width:50%;padding-top:10px">
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			    onclick="mhz()" style="float:right; margin:0;">查询射频载波频率</a>
+		  </div>
+        </div>
+		<div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+	  <div data-role="footer" data-position="fixed">
+	    <h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 无线发送地址--> 
+    <div data-role="page" data-dialog="true" id="send">
+	  <div data-role="header">
+		<h1>设置和查询无线发送地址</h1>
+	  </div>	  
+      <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;">
+          <div class="ui-grid-c" style="width:100%;">
+          	<div class="ui-block-a" style="width:25%;">
+		      <input type="text" name="ipPt" id="setSendLoc1" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/> 
+			</div>
+			<div class="ui-block-b" style="width:25%;">  
+			  <input type="text" name="ipPt" id="setSendLoc2" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/>
+			</div>
+			<div class="ui-block-c" style="width:25%;">  
+			  <input type="text" name="ipPt" id="setSendLoc3" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/>
+			</div>
+			<div class="ui-block-d" style="width:25%;">  
+			  <input type="text" name="ipPt" id="setSendLoc4" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/>
+			</div>
+		  </div>
+		  <div style="width:50%; padding-top:5px" >
+            <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			   onclick="checkSendLoc();" style="float:left; margin:0;">设置无线发送地址</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-grid-c" style="width:100%;">
+          	<div class="ui-block-a" style="width:25%;">
+		      <input type="text" name="ipPt" id="getSendLoc1" placeholder="CC"
+			    data-clear-btn="true" /> 
+			</div>
+			<div class="ui-block-b" style="width:25%;">  
+			  <input type="text" name="ipPt" id="getSendLoc2" placeholder="CC"
+			    data-clear-btn="true" />
+			</div>
+			<div class="ui-block-c" style="width:25%;">  
+			  <input type="text" name="ipPt" id="getSendLoc3" placeholder="CC"
+			    data-clear-btn="true" />
+			</div>
+			<div class="ui-block-d" style="width:25%;">  
+			  <input type="text" name="ipPt" id="getSendLoc4" placeholder="CC"
+			    data-clear-btn="true" />
+			</div>
+		  </div>
+		  <div style="width:50%;padding-top:5px">
+		    <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			   onclick="wifiSendLoc()" style="float:left; margin:0;">查询无线发送地址</a>
+		  </div>
+        </div>
+		<div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+      </div>
+	  <div data-role="footer" data-position="fixed">
+		<h1></h1>
+	  </div>
+	</div>
+    <!--弹框页面 无线接收地址--> 
+    <div data-role="page" data-dialog="true" id="receive">
+	  <div data-role="header">
+		<h1>设置和查询无线接收地址</h1>
+	  </div>	  
+	  <div data-role="main" class="ui-content">
+		<div class="ui-grid-a" style="margin:0;">
+		  <div class="ui-grid-c" style="width:100%;">
+		    <div class="ui-block-a" style="width:25%;">
+		      <input type="text" name="ipPt" id="setReceiveLoc1" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/> 
+	        </div>
+		    <div class="ui-block-b" style="width:25%;">  
+			  <input type="text" name="ipPt" id="setReceiveLoc2" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/>
+		    </div>
+		    <div class="ui-block-c" style="width:25%;">  
+			  <input type="text" name="ipPt" id="setReceiveLoc3" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/>
+	        </div>
+		    <div class="ui-block-d" style="width:25%;">  
+			  <input type="text" name="ipPt" id="setReceiveLoc4" placeholder="CC"
+			    data-clear-btn="true" onkeyup="check(this.id)"/>
+	        </div>
+	      </div>
+		  <div  style="width:50%; padding-top:5px" >
+            <a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			   onclick="checkReceiveLoc();" style="float:left; margin:0;">设置无线接收地址</a>
+		  </div>
+        </div>
+        <div class="ui-grid-a" style="margin:0;">
+          <div class="ui-grid-a" style="width:100%;">
+		    <div class="ui-block-a" style="width:25%;">		  	
+		      <input type="text" name="ipPt" id="getReceiveLoc1" placeholder="CC"
+			    data-clear-btn="true"/> 
+		    </div>
+		    <div class="ui-block-b" style="width:25%;">  
+			  <input type="text" name="ipPt" id="getReceiveLoc2" placeholder="CC"
+			    data-clear-btn="true"/>
+		    </div>
+		    <div class="ui-block-c" style="width:25%;">  
+			  <input type="text" name="ipPt" id="getReceiveLoc3" placeholder="CC"
+			    data-clear-btn="true"/>
+		    </div>
+		    <div class="ui-block-d" style="width:25%;">  
+			  <input type="text" name="ipPt" id="getReceiveLoc4" placeholder="CC"
+			    data-clear-btn="true"/>
+		    </div>
+		  </div>
+		  <div  style="width:50%;padding-top:5px">
+			<a href="#" class="ui-btn ui-mini ui-btn-inline ui-corner-all ui-shadow"
+			    onclick="wifiReceiveLoc()" style="float:left; margin:0;">查询无线接收地址</a>
+		  </div>
+        </div>
+		<div style="margin:0;margin-top:10px">
+		  <a href="#logon" onclick="aa()" style="float:right;">返回</a>
+		</div>
+	  </div>
+      <div data-role="footer" data-position="fixed">
+		<h1></h1>
+	  </div>
+	</div>
+  </body>
+</html>

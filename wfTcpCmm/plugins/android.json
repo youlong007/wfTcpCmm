@@ -1,0 +1,21 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "cdv.app.hdw.tcp"
+        },
+        "spc.cdv.plugin.tcpCmm": {
+            "PACKAGE_NAME": "cdv.app.hdw.tcp"
+        },
+        "spc.cdv.plgin.wf": {
+            "PACKAGE_NAME": "cdv.app.hdw.tcp"
+        }
+    },
+    "dependent_plugins": {}
+}
